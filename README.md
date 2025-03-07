@@ -1,4 +1,4 @@
-`# Predição de Churn de Clientes da Telco
+# Predição de Churn de Clientes da Telco
 
 ## Visão Geral
 
