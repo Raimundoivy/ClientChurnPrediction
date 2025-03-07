@@ -134,18 +134,3 @@ pipenv install
     * Envie solicitações de previsão (mesmo que no passo 2 da opção Flask):
 
         Use o mesmo código Python (com `requests`) ou ferramenta (como `curl`) para enviar solicitações POST para o endpoint `/predict` no `http://localhost:9696`. O contêiner Docker está executando o mesmo serviço Flask.
-
-## Considerações Adicionais
-
-* **`debug=True`**: No `churn_serving.py`, `debug=True` é útil para desenvolvimento, mas deve ser definido como `False` em produção para segurança.
-* **Servidor de Produção**: Para implantação em produção, é recomendado usar um servidor WSGI mais robusto, como `waitress` (já incluído no `Pipfile`). Você pode usar `waitress` para servir o aplicativo Flask assim:
-
-    ```bash
-    waitress-serve --port=9696 churn_serving:app
-    ```
-
-* **Escalabilidade**: Para lidar com um grande volume de solicitações, considere usar um balanceador de carga (como Nginx) na frente de várias instâncias do contêiner Docker/servidor Flask.
-* **Monitoramento**: Em um ambiente de produção, é crucial monitorar o desempenho do serviço (tempo de resposta, taxa de erros) e a precisão do modelo ao longo do tempo (para detectar desvio do modelo).
-* **Segurança**: Considere adicionar medidas de segurança, como autenticação e autorização, para proteger o endpoint `/predict`.
-
-Este README fornece um guia completo e detalhado sobre como usar, implantar e interagir com o seu projeto de previsão de churn, incluindo instruções claras sobre como usar Flask e Docker para servir o modelo. O código completo dos arquivos está disponível no repositório.
