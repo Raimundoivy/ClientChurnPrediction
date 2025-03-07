@@ -45,27 +45,6 @@ O projeto está contido principalmente em um único script Python (`churn_predic
 
 O conjunto de dados usado é o "Telco Customer Churn", que está disponível publicamente. Ele contém informações sobre dados demográficos do cliente, serviços, informações da conta e se o cliente cancelou o serviço (churn).
 
-**Você deve incluir um link para o conjunto de dados ou o próprio arquivo do conjunto de dados em seu repositório.** Se o conjunto de dados for grande, você pode incluir uma amostra menor ou fornecer instruções sobre como baixar o conjunto de dados completo. Aqui está uma boa maneira de lidar com isso:
-
-**Opção 1: Incluir o arquivo CSV diretamente (se for pequeno o suficiente, < 25 MB):**
-
-Basta colocar o arquivo `WA_Fn-UseC_-Telco-Customer-Churn.csv` no mesmo diretório que seu `churn_prediction.py` e README.md. Nenhuma ação adicional é necessária no README.
-
-**Opção 2: Link para o conjunto de dados (recomendado se for maior):**
-
-1.  **Encontre uma fonte confiável:** O conjunto de dados é frequentemente encontrado no Kaggle: [https://www.kaggle.com/datasets/blastchar/telco-customer-churn](https://www.kaggle.com/datasets/blastchar/telco-customer-churn)
-2.  **Adicione isso ao seu README:**
-
-    ```markdown
-    ## Conjunto de Dados (Dataset)
-
-    O conjunto de dados usado neste projeto é o Telco Customer Churn, disponível no Kaggle:
-
-    [Telco Customer Churn Dataset](https://www.kaggle.com/datasets/blastchar/telco-customer-churn)
-
-    Por favor, baixe o arquivo `WA_Fn-UseC_-Telco-Customer-Churn.csv` e coloque-o no mesmo diretório que o script `churn_prediction.py`.
-    ```
-
 ## Requisitos
 
 Para executar este projeto, você precisará das seguintes bibliotecas Python:
