@@ -8,7 +8,7 @@ Este projeto se concentra em prever o churn (cancelamento) de clientes para uma 
 
 O projeto consiste nos seguintes arquivos principais:
 
-* `churn_prediction.py`: Contém o script principal do Python para o processo de ciência de dados (carregamento de dados, EDA, engenharia de recursos, treinamento do modelo, avaliação).
+* `churn_prediction.ipynb`: Contém o notebook principal em Python para o processo de ciência de dados (carregamento de dados, EDA, engenharia de recursos, treinamento do modelo, avaliação).
 * `churn_serving.py`:  Um script Python que usa Flask para criar um serviço web simples para prever o churn.  Este arquivo usa o modelo treinado salvo (`churn_prediction.bin`).
 * `churn_prediction.bin`:  O arquivo binário contendo o modelo de regressão logística treinado e o objeto `DictVectorizer`, salvos usando `pickle`.
 * `Dockerfile`:  Define a configuração do contêiner Docker para implantar o serviço de previsão de churn.
@@ -47,11 +47,13 @@ pipenv install
 
 1.  **Treinamento do Modelo**
 
-    Primeiro, execute o script `churn_prediction.py` para treinar o modelo e salvar o modelo treinado e o vetorizador:
+    Primeiro, execute o notebook `churn_prediction.ipynb` para treinar o modelo e salvar o modelo treinado e o vetorizador:
 
     ```bash
-    python churn_prediction.py
-    ```
+    jupyter notebook churn_prediction.ipynb
+    ```
+
+    Ou, se estiver utilizando o VS Code ou outra IDE que suporte notebooks Jupyter, abra o arquivo e execute as células sequencialmente.
 
     Isso irá:
 
@@ -71,8 +73,8 @@ pipenv install
     * Execute o script de serviço:
 
         ```bash
-        python churn_serving.py
-        ```
+        python churn_serving.py
+        ```
 
         Isso iniciará o servidor Flask na porta 9696. O script `churn_serving.py` carrega o modelo pré-treinado (`churn_prediction.bin`) e expõe um endpoint `/predict` para receber solicitações de previsão.
 
@@ -81,35 +83,35 @@ pipenv install
         Você pode enviar solicitações POST para o endpoint `/predict` com dados do cliente no formato JSON. Você pode usar `requests` (ou ferramentas como `curl` ou Postman) para isso. Por exemplo, usando Python:
 
         ```python
-        import requests
+        import requests
 
-        url = 'http://localhost:9696/predict'  # Ou use o endereço do servidor, se não for local
-        customer = {
-            "gender": "female",
-            "seniorcitizen": 0,
-            "partner": "yes",
-            "dependents": "no",
-            "phoneservice": "no",
-            "multiplelines": "no_phone_service",
-            "internetservice": "dsl",
-            "onlinesecurity": "no",
-            "onlinebackup": "yes",
-            "deviceprotection": "no",
-            "techsupport": "no",
-            "streamingtv": "no",
-            "streamingmovies": "no",
-            "contract": "month-to-month",
-            "paperlessbilling": "yes",
-            "paymentmethod": "electronic_check",
-            "tenure": 1,  # meses
-            "monthlycharges": 29.85,
-            "totalcharges": 29.85
-        }
+        url = 'http://localhost:9696/predict'  # Ou use o endereço do servidor, se não for local
+        customer = {
+            "gender": "female",
+            "seniorcitizen": 0,
+            "partner": "yes",
+            "dependents": "no",
+            "phoneservice": "no",
+            "multiplelines": "no_phone_service",
+            "internetservice": "dsl",
+            "onlinesecurity": "no",
+            "onlinebackup": "yes",
+            "deviceprotection": "no",
+            "techsupport": "no",
+            "streamingtv": "no",
+            "streamingmovies": "no",
+            "contract": "month-to-month",
+            "paperlessbilling": "yes",
+            "paymentmethod": "electronic_check",
+            "tenure": 1,  # meses
+            "monthlycharges": 29.85,
+            "totalcharges": 29.85
+        }
 
-        response = requests.post(url, json=customer)
-        result = response.json()
-        print(result)  # Exemplo de output: {'churn_probability': 0.636, 'churn': True}
-        ```
+        response = requests.post(url, json=customer)
+        result = response.json()
+        print(result)  # Exemplo de output: {'churn_probability': 0.636, 'churn': True}
+        ```
 
     b)  **Usando Docker**
 
@@ -118,16 +120,16 @@ pipenv install
         No mesmo diretório onde o `Dockerfile` está localizado, execute:
 
         ```bash
-        docker build -t churn-prediction-service .
-        ```
+        docker build -t churn-prediction-service .
+        ```
 
         Isso criará uma imagem Docker chamada `churn-prediction-service`. O `Dockerfile` configura o ambiente Python, instala as dependências usando Pipenv e copia os arquivos necessários para o contêiner.
 
     * Execute o contêiner Docker:
 
         ```bash
-        docker run -p 9696:9696 churn-prediction-service
-        ```
+        docker run -p 9696:9696 churn-prediction-service
+        ```
 
         Isso iniciará o contêiner e mapeará a porta 9696 do contêiner para a porta 9696 na sua máquina host. O serviço Flask estará acessível da mesma forma que na execução local (usando `localhost:9696`).
 
