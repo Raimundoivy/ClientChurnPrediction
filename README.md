@@ -1,138 +1,188 @@
-## Previsão de Churn de Clientes da Telco
+Com certeza. O README que você tem é funcional, o que é um ótimo começo. Para torná-lo "melhor", vamos transformá-lo em uma vitrine profissional para o seu projeto. Um README excelente não apenas explica como usar o código, mas também vende o projeto, demonstra seu raciocínio e destaca as habilidades que você aplicou.
 
-## Visão Geral
+A versão a seguir foi reestruturada para ser mais visualmente atraente, mais fácil de ler e mais impactante para quem visita seu repositório, como recrutadores ou outros desenvolvedores.
 
-Este projeto se concentra em prever o churn (cancelamento) de clientes para uma empresa de telecomunicações ("Telco"). Ele usa aprendizado de máquina, especificamente regressão logística, para identificar clientes que provavelmente cancelarão seus serviços (churn). O projeto percorre todo o processo de ciência de dados, desde o carregamento e limpeza dos dados até o treinamento, avaliação e considerações de implementação do modelo, incluindo a implantação como um serviço web usando Flask e Docker.
+-----
 
-## Estrutura do Projeto
+# 🤖 Serviço de Predição de Churn de Clientes
 
-O projeto consiste nos seguintes arquivos principais:
+## 🎯 Sobre o Projeto
 
-* `churn_prediction.ipynb`: Contém o notebook principal em Python para o processo de ciência de dados (carregamento de dados, EDA, engenharia de recursos, treinamento do modelo, avaliação).
-* `churn_serving.py`:  Um script Python que usa Flask para criar um serviço web simples para prever o churn.  Este arquivo usa o modelo treinado salvo (`churn_prediction.bin`).
-* `churn_prediction.bin`:  O arquivo binário contendo o modelo de regressão logística treinado e o objeto `DictVectorizer`, salvos usando `pickle`.
-* `Dockerfile`:  Define a configuração do contêiner Docker para implantar o serviço de previsão de churn.
-* `Pipfile` e `Pipfile.lock`: Arquivos de configuração para `Pipenv`, gerenciando as dependências do projeto.
+A retenção de clientes é um dos pilares para o sucesso de qualquer empresa de serviços. Perder clientes (churn) não apenas resulta em perda de receita, mas também acarreta custos para adquirir novos.
 
-## Conjunto de Dados (Dataset)
+Este projeto aborda esse desafio de negócio criando um serviço de ponta a ponta que prevê a probabilidade de um cliente de uma empresa de telecomunicações cancelar seu contrato. Utilizando um modelo de **Regressão Logística**, o serviço analisa os dados do cliente e retorna uma pontuação de risco de churn, permitindo que a empresa tome ações proativas para reter clientes valiosos.
 
-O conjunto de dados usado é o "Telco Customer Churn", que está disponível publicamente. Ele contém informações sobre dados demográficos do cliente, serviços, informações da conta e se o cliente cancelou o serviço (churn).
+O diferencial deste projeto é o foco na **operacionalização (MLOps)**: o modelo não vive apenas em um notebook, ele é encapsulado em um **serviço web via Flask** e **conteinerizado com Docker**, pronto para ser implantado em um ambiente de produção.
 
-## Requisitos
+## ✨ Principais Funcionalidades
 
-Para executar este projeto localmente (sem Docker), você precisará das seguintes bibliotecas Python:
+  - **Análise Exploratória de Dados (EDA):** Investigação aprofundada dos dados para identificar os principais fatores que influenciam o churn.
+  - **Engenharia de Features:** Pré-processamento e transformação de variáveis categóricas para uso no modelo.
+  - **Treinamento e Validação de Modelo:** Construção e avaliação de um modelo de Regressão Logística com Scikit-learn, utilizando métricas como AUC-ROC.
+  - [cite\_start]**Serialização do Modelo:** Salvando o modelo treinado e o vetorizador de features com `pickle` para uso em produção[cite: 5].
+  - [cite\_start]**Serviço Web (API):** Desenvolvimento de uma API REST com Flask que recebe dados do cliente em JSON e retorna a probabilidade de churn[cite: 5].
+  - [cite\_start]**Conteinerização:** Criação de uma imagem Docker para encapsular o serviço, suas dependências e o modelo, garantindo portabilidade e reprodutibilidade[cite: 5].
 
-* `numpy`
-* `pandas`
-* `matplotlib`
-* `seaborn`
-* `scikit-learn`
-* `requests`
-* `flask`
-* `waitress` (para o servidor de produção WSGI)
+## 🛠️ Tecnologias Utilizadas
 
-Você pode instalá-los usando `pip`:
+O projeto foi construído utilizando as seguintes tecnologias:
+
+  - **Linguagem:** Python
+  - **Análise e Modelagem:**
+      - NumPy
+      - Pandas
+      - Scikit-learn
+  - **Serviço Web:**
+      - Flask
+      - Gunicorn (Servidor WSGI de produção)
+  - **Gerenciamento de Dependências:**
+      - Pipenv
+  - **Implantação:**
+      - Docker
+
+## 🚀 Como Executar o Projeto
+
+Siga os passos abaixo para configurar e executar o projeto em seu ambiente local.
+
+### 📋 Pré-requisitos
+
+Certifique-se de ter as seguintes ferramentas instaladas:
+
+  - Python 3.7+
+  - Pipenv
+  - Docker
+
+### ⚙️ Instalação
+
+1.  Clone o repositório:
+
+<!-- end list -->
 
 ```bash
-pip install numpy pandas matplotlib seaborn scikit-learn requests flask waitress
+git clone https://github.com/SEU_USUARIO/SEU_REPOSITORIO.git
+cd SEU_REPOSITORIO
 ```
 
-Ou, utilizando pipenv (recomendado para gerenciar ambientes virtuais):
+2.  Instale as dependências usando Pipenv:
+
+<!-- end list -->
 
 ```bash
 pipenv install
 ```
 
-## Executando o Projeto
+### 🧠 Treinamento do Modelo
 
-1.  **Treinamento do Modelo**
+O notebook `churn_prediction.ipynb` contém todo o processo de análise e treinamento.
+Execute o notebook para treinar o modelo do zero. Isso gerará o arquivo `churn_prediction.bin`, que contém o `DictVectorizer` e o modelo de Regressão Logística treinados.
 
-    Primeiro, execute o notebook `churn_prediction.ipynb` para treinar o modelo e salvar o modelo treinado e o vetorizador:
+### 💡 Executando o Serviço de Predição
 
+Você pode executar o serviço de duas maneiras: localmente com Flask ou via Docker.
+
+**Opção 1: Executando com Docker (Recomendado)**
+
+1.  **Construa a imagem Docker:**
     ```bash
-    jupyter notebook churn_prediction.ipynb
+    docker build -t churn-service .
+    ```
+2.  **Execute o contêiner:**
+    ```bash
+    docker run -p 9696:9696 churn-service
     ```
 
-    Ou, se estiver utilizando o VS Code ou outra IDE que suporte notebooks Jupyter, abra o arquivo e execute as células sequencialmente.
+O serviço estará disponível em `http://localhost:9696`.
 
-    Isso irá:
+**Opção 2: Executando Localmente com Flask/Gunicorn**
 
-    * Carregar e preparar os dados.
-    * Realizar a Análise Exploratória de Dados (EDA).
-    * Fazer a engenharia de recursos.
-    * Treinar o modelo de regressão logística.
-    * Avaliar o modelo.
-    * Salvar o modelo treinado e o `DictVectorizer` em um arquivo chamado `churn_prediction.bin`.
+1.  **Ative o ambiente virtual:**
+    ```bash
+    pipenv shell
+    ```
+2.  **Inicie o servidor:**
+    ```bash
+    gunicorn --bind 0.0.0.0:9696 churn_serving:app
+    ```
 
-2.  **Implantação do Modelo**
+## 🤖 Exemplo de Uso da API
 
-    Você tem duas opções para implantar o modelo: usando Flask diretamente ou usando Docker.
+Uma vez que o serviço esteja em execução, você pode enviar uma requisição `POST` para o endpoint `/predict`.
 
-    a)  **Usando Flask (sem Docker)**
+### Exemplo com `curl`
 
-    * Execute o script de serviço:
+```bash
+curl -X POST \
+  http://localhost:9696/predict \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "gender": "female",
+    "seniorcitizen": 0,
+    "partner": "yes",
+    "dependents": "no",
+    "phoneservice": "no",
+    "multiplelines": "no_phone_service",
+    "internetservice": "dsl",
+    "onlinesecurity": "no",
+    "onlinebackup": "yes",
+    "deviceprotection": "no",
+    "techsupport": "no",
+    "streamingtv": "no",
+    "streamingmovies": "no",
+    "contract": "month-to-month",
+    "paperlessbilling": "yes",
+    "paymentmethod": "electronic_check",
+    "tenure": 1,
+    "monthlycharges": 29.85,
+    "totalcharges": 29.85
+  }'
+```
 
-        ```bash
-        python churn_serving.py
-        ```
+### Exemplo com Python (`requests`)
 
-        Isso iniciará o servidor Flask na porta 9696. O script `churn_serving.py` carrega o modelo pré-treinado (`churn_prediction.bin`) e expõe um endpoint `/predict` para receber solicitações de previsão.
+```python
+import requests
 
-    * Envie solicitações de previsão:
+url = 'http://localhost:9696/predict'
+cliente = {
+    "gender": "female", "seniorcitizen": 0, "partner": "yes", "dependents": "no",
+    "phoneservice": "no", "multiplelines": "no_phone_service", "internetservice": "dsl",
+    "onlinesecurity": "no", "onlinebackup": "yes", "deviceprotection": "no",
+    "techsupport": "no", "streamingtv": "no", "streamingmovies": "no",
+    "contract": "month-to-month", "paperlessbilling": "yes", "paymentmethod": "electronic_check",
+    "tenure": 1, "monthlycharges": 29.85, "totalcharges": 29.85
+}
 
-        Você pode enviar solicitações POST para o endpoint `/predict` com dados do cliente no formato JSON. Você pode usar `requests` (ou ferramentas como `curl` ou Postman) para isso. Por exemplo, usando Python:
+response = requests.post(url, json=cliente).json()
 
-        ```python
-        import requests
+print(response)
+```
 
-        url = 'http://localhost:9696/predict'  # Ou use o endereço do servidor, se não for local
-        customer = {
-            "gender": "female",
-            "seniorcitizen": 0,
-            "partner": "yes",
-            "dependents": "no",
-            "phoneservice": "no",
-            "multiplelines": "no_phone_service",
-            "internetservice": "dsl",
-            "onlinesecurity": "no",
-            "onlinebackup": "yes",
-            "deviceprotection": "no",
-            "techsupport": "no",
-            "streamingtv": "no",
-            "streamingmovies": "no",
-            "contract": "month-to-month",
-            "paperlessbilling": "yes",
-            "paymentmethod": "electronic_check",
-            "tenure": 1,  # meses
-            "monthlycharges": 29.85,
-            "totalcharges": 29.85
-        }
+**Resposta Esperada:**
 
-        response = requests.post(url, json=customer)
-        result = response.json()
-        print(result)  # Exemplo de output: {'churn_probability': 0.636, 'churn': True}
-        ```
+```json
+{
+  "churn": true,
+  "churn_probability": 0.6363236333333334
+}
+```
 
-    b)  **Usando Docker**
+## 📂 Estrutura do Repositório
 
-    * Construa a imagem Docker:
+```
+.
+├── churn_prediction.bin      # Modelo serializado e vetorizador
+├── churn_prediction.ipynb    # Notebook de análise e treinamento
+├── churn_serving.py          # Script da aplicação Flask
+├── Dockerfile                # Definição do contêiner Docker
+├── Pipfile                   # Declaração de dependências
+├── Pipfile.lock              # Lockfile de dependências
+└── README.md                 # Este arquivo
+```
 
-        No mesmo diretório onde o `Dockerfile` está localizado, execute:
+## 🙏 Agradecimentos
 
-        ```bash
-        docker build -t churn-prediction-service .
-        ```
+Este projeto foi desenvolvido como parte do meu aprendizado com o livro **"Machine Learning Bookcamp"** de Alexey Grigorev, aplicando os conceitos de modelagem, avaliação e implantação de ponta a ponta.
 
-        Isso criará uma imagem Docker chamada `churn-prediction-service`. O `Dockerfile` configura o ambiente Python, instala as dependências usando Pipenv e copia os arquivos necessários para o contêiner.
+## 👤 Contato
 
-    * Execute o contêiner Docker:
-
-        ```bash
-        docker run -p 9696:9696 churn-prediction-service
-        ```
-
-        Isso iniciará o contêiner e mapeará a porta 9696 do contêiner para a porta 9696 na sua máquina host. O serviço Flask estará acessível da mesma forma que na execução local (usando `localhost:9696`).
-
-    * Envie solicitações de previsão (mesmo que no passo 2 da opção Flask):
-
-        Use o mesmo código Python (com `requests`) ou ferramenta (como `curl`) para enviar solicitações POST para o endpoint `/predict` no `http://localhost:9696`. O contêiner Docker está executando o mesmo serviço Flask.
+**Raimundo Araújo** - [LinkedIn](https://www.linkedin.com/in/raimundoivy/)
