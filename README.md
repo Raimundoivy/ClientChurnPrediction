@@ -1,108 +1,104 @@
-# 🤖 Serviço de Predição de Churn de Clientes
+# 🤖 Customer Churn Prediction Service
 
-## 🎯 Sobre o Projeto
+## 🎯 About the Project
 
-A retenção de clientes é um dos pilares para o sucesso de qualquer empresa de serviços. Perder clientes (churn) não apenas resulta em perda de receita, mas também acarreta custos para adquirir novos.
+Customer retention is one of the pillars for the success of any service company. Losing customers (churn) not only results in revenue loss but also incurs costs to acquire new ones.
 
-Este projeto aborda esse desafio de negócio criando um serviço de ponta a ponta que prevê a probabilidade de um cliente de uma empresa de telecomunicações cancelar seu contrato. Utilizando um modelo de **Regressão Logística**, o serviço analisa os dados do cliente e retorna uma pontuação de risco de churn, permitindo que a empresa tome ações proativas para reter clientes valiosos.
+This project addresses this business challenge by creating an end-to-end service that predicts the probability of a telecommunications company's customer canceling their contract. Using a **Logistic Regression** model, the service analyzes customer data and returns a churn risk score, allowing the company to take proactive actions to retain valuable customers.
 
-O diferencial deste projeto é o foco na **operacionalização (MLOps)**: o modelo não vive apenas em um notebook, ele é encapsulado em um **serviço web via Flask** e **conteinerizado com Docker**, pronto para ser implantado em um ambiente de produção.
+The key differentiator of this project is its focus on **operationalization (MLOps)**: the model doesn't just live in a notebook; it is encapsulated in a **web service via Flask** and **containerized with Docker**, ready to be deployed in a production environment.
 
-## ✨ Principais Funcionalidades
+## ✨ Key Features
 
-  - **Análise Exploratória de Dados (EDA):** Investigação aprofundada dos dados para identificar os principais fatores que influenciam o churn.
-  - **Engenharia de Features:** Pré-processamento e transformação de variáveis categóricas para uso no modelo.
-  - **Treinamento e Validação de Modelo:** Construção e avaliação de um modelo de Regressão Logística com Scikit-learn, utilizando métricas como AUC-ROC.
-  - [cite\_start]**Serialização do Modelo:** Salvando o modelo treinado e o vetorizador de features com `pickle` para uso em produção[cite: 5].
-  - [cite\_start]**Serviço Web (API):** Desenvolvimento de uma API REST com Flask que recebe dados do cliente em JSON e retorna a probabilidade de churn[cite: 5].
-  - [cite\_start]**Conteinerização:** Criação de uma imagem Docker para encapsular o serviço, suas dependências e o modelo, garantindo portabilidade e reprodutibilidade[cite: 5].
+  - **Exploratory Data Analysis (EDA):** In-depth investigation of the data to identify the main factors influencing churn.
+  - **Feature Engineering:** Preprocessing and transformation of categorical variables for use in the model.
+  - **Model Training and Validation:** Building and evaluating a Logistic Regression model with Scikit-learn, using metrics like AUC-ROC.
+  - **Model Serialization:** Saving the trained model and feature vectorizer with `pickle` for use in production.
+  - **Web Service (API):** Development of a REST API with Flask that receives customer data in JSON and returns the churn probability.
+  - **Containerization:** Creation of a Docker image to encapsulate the service, its dependencies, and the model, ensuring portability and reproducibility.
 
-## 🛠️ Tecnologias Utilizadas
+## 🛠️ Technologies Used
 
-O projeto foi construído utilizando as seguintes tecnologias:
+The project was built using the following technologies:
 
-  - **Linguagem:** Python
-  - **Análise e Modelagem:**
+  - **Language:** Python
+  - **Analysis and Modeling:**
       - NumPy
       - Pandas
       - Scikit-learn
-  - **Serviço Web:**
+  - **Web Service:**
       - Flask
-      - Gunicorn (Servidor WSGI de produção)
-  - **Gerenciamento de Dependências:**
+      - Gunicorn (Production WSGI Server)
+  - **Dependency Management:**
       - Pipenv
-  - **Implantação:**
+  - **Deployment:**
       - Docker
 
-## 🚀 Como Executar o Projeto
+## 🚀 How to Run the Project
 
-Siga os passos abaixo para configurar e executar o projeto em seu ambiente local.
+Follow the steps below to set up and run the project in your local environment.
 
-### 📋 Pré-requisitos
+### 📋 Prerequisites
 
-Certifique-se de ter as seguintes ferramentas instaladas:
+Make sure you have the following tools installed:
 
   - Python 3.7+
   - Pipenv
   - Docker
 
-### ⚙️ Instalação
+### ⚙️ Installation
 
-1.  Clone o repositório:
+1.  Clone the repository:
 
-<!-- end list -->
+    ```bash
+    git clone [https://github.com/Raimundoivy/ClientChurnPrediction.git](https://github.com/Raimundoivy/ClientChurnPrediction.git)
+    cd ClientChurnPrediction
+    ```
 
-```bash
-git clone https://github.com/SEU_USUARIO/SEU_REPOSITORIO.git
-cd SEU_REPOSITORIO
-```
+2.  Install the dependencies using Pipenv:
 
-2.  Instale as dependências usando Pipenv:
+    ```bash
+    pipenv install
+    ```
 
-<!-- end list -->
+### 🧠 Model Training
 
-```bash
-pipenv install
-```
+The `churn_prediction.ipynb` notebook contains the entire analysis and training process.
+Run the notebook to train the model from scratch. This will generate the `churn_prediction.bin` file, which contains the trained `DictVectorizer` and Logistic Regression model.
 
-### 🧠 Treinamento do Modelo
+### 💡 Running the Prediction Service
 
-O notebook `churn_prediction.ipynb` contém todo o processo de análise e treinamento.
-Execute o notebook para treinar o modelo do zero. Isso gerará o arquivo `churn_prediction.bin`, que contém o `DictVectorizer` e o modelo de Regressão Logística treinados.
+You can run the service in two ways: locally with Flask or via Docker.
 
-### 💡 Executando o Serviço de Predição
+**Option 1: Running with Docker (Recommended)**
 
-Você pode executar o serviço de duas maneiras: localmente com Flask ou via Docker.
-
-**Opção 1: Executando com Docker (Recomendado)**
-
-1.  **Construa a imagem Docker:**
+1.  **Build the Docker image:**
     ```bash
     docker build -t churn-service .
     ```
-2.  **Execute o contêiner:**
+2.  **Run the container:**
     ```bash
     docker run -p 9696:9696 churn-service
     ```
 
-O serviço estará disponível em `http://localhost:9696`.
+The service will be available at `http://localhost:9696`.
 
-**Opção 2: Executando Localmente com Flask/Gunicorn**
+**Option 2: Running Locally with Flask/Gunicorn**
 
-1.  **Ative o ambiente virtual:**
+1.  **Activate the virtual environment:**
     ```bash
     pipenv shell
     ```
-2.  **Inicie o servidor:**
+2.  **Start the server:**
     ```bash
     gunicorn --bind 0.0.0.0:9696 churn_serving:app
     ```
 
-## 🤖 Exemplo de Uso da API
+## 🤖 API Usage Example
 
-Uma vez que o serviço esteja em execução, você pode enviar uma requisição `POST` para o endpoint `/predict`.
+Once the service is running, you can send a `POST` request to the `/predict` endpoint.
 
-### Exemplo com `curl`
+### Example with `curl`
 
 ```bash
 curl -X POST \
@@ -129,15 +125,15 @@ curl -X POST \
     "monthlycharges": 29.85,
     "totalcharges": 29.85
   }'
-```
+````
 
-### Exemplo com Python (`requests`)
+### Example with Python (`requests`)
 
 ```python
 import requests
 
 url = 'http://localhost:9696/predict'
-cliente = {
+customer = {
     "gender": "female", "seniorcitizen": 0, "partner": "yes", "dependents": "no",
     "phoneservice": "no", "multiplelines": "no_phone_service", "internetservice": "dsl",
     "onlinesecurity": "no", "onlinebackup": "yes", "deviceprotection": "no",
@@ -146,12 +142,12 @@ cliente = {
     "tenure": 1, "monthlycharges": 29.85, "totalcharges": 29.85
 }
 
-response = requests.post(url, json=cliente).json()
+response = requests.post(url, json=customer).json()
 
 print(response)
 ```
 
-**Resposta Esperada:**
+**Expected Response:**
 
 ```json
 {
@@ -160,23 +156,23 @@ print(response)
 }
 ```
 
-## 📂 Estrutura do Repositório
+## 📂 Repository Structure
 
 ```
 .
-├── churn_prediction.bin      # Modelo serializado e vetorizador
-├── churn_prediction.ipynb    # Notebook de análise e treinamento
-├── churn_serving.py          # Script da aplicação Flask
-├── Dockerfile                # Definição do contêiner Docker
-├── Pipfile                   # Declaração de dependências
-├── Pipfile.lock              # Lockfile de dependências
-└── README.md                 # Este arquivo
+├── churn_prediction.bin      # Serialized model and vectorizer
+├── churn_prediction.ipynb    # Analysis and training notebook
+├── churn_serving.py          # Flask application script
+├── Dockerfile                # Docker container definition
+├── Pipfile                   # Dependency declaration
+├── Pipfile.lock              # Dependency lockfile
+└── README.md                 # This file
 ```
 
-## 🙏 Agradecimentos
+## 🙏 Acknowledgments
 
-Este projeto foi desenvolvido como parte do meu aprendizado com o livro **"Machine Learning Bookcamp"** de Alexey Grigorev, aplicando os conceitos de modelagem, avaliação e implantação de ponta a ponta.
+This project was developed as part of my learning with the book **"Machine Learning Bookcamp"** by Alexey Grigorev, applying the concepts of end-to-end modeling, evaluation, and deployment.
 
-## 👤 Contato
+## 👤 Contact
 
 **Raimundo Araújo** - [LinkedIn](https://www.linkedin.com/in/raimundoivy/)
