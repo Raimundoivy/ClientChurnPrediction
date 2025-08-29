@@ -51,8 +51,8 @@ Make sure you have the following tools installed:
 1.  Clone the repository:
 
     ```bash
-    git clone [https://github.com/Raimundoivy/ClientChurnPrediction.git](https://github.com/Raimundoivy/ClientChurnPrediction.git)
-    cd ClientChurnPrediction
+    git clone [https://github.com/Raimundoivy/churn-prediction-service.git](https://github.com/Raimundoivy/churn-prediction-service.git)
+    cd churn-prediction-service
     ```
 
 2.  Install the dependencies using Pipenv:
